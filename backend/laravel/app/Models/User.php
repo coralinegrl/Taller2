@@ -42,4 +42,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getIsAdminAttribute(): bool
+    {
+    // Usar el nombre de usuario del administrador almacenado en una variable de entorno
+    return $this->username === env('ADMIN_USERNAME');
+    }
+
 }

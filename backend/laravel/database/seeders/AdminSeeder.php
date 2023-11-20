@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AdminSeeder extends Seeder
 {
@@ -14,7 +16,7 @@ class AdminSeeder extends Seeder
     {
         DB::table('users')->insert([
             'username' => 'Ochietto',
-            'password' => bcrypt('Jaqamain3pals'),
+            'password' => Hash::make('Jaqamain3pals'),
             
         ]);
         
