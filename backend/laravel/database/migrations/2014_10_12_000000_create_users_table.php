@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('surname');
-            $table->string('id')->unique();
+            $table->string('rut')->unique();
             $table->string('email')->unique();
             $table->integer('points')->default(0);
             $table->timestamps();
