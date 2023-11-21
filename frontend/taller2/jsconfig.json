@@ -1,19 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
+    "target": "ES5",
+    "module": "commonjs",
     "baseUrl": "./",
-    "moduleResolution": "node",
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
-  }
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.js"]
 }
