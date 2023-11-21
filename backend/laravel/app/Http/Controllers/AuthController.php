@@ -4,26 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User; // Asegúrate de usar tu modelo de Usuario
+use Illuminate\Support\Facades\Hash;
+use App\Models\User; 
+
+
 
 class AuthController extends Controller
 {
     public function login(Request $request) {
-        $credentials = $request->only('username', 'password');
-
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            $token = $user->createToken('Personal Access Token')->accessToken;
-
+        $user = User::where('username', $request->username)->first();
+    
+        if ($user && Hash::check($request->password, $user->password)) {
+            $token = $user->createToken('Personal Access Token')->plainTextToken;
             return response()->json(['token' => $token], 200);
-        } else {
-            return response()->json(['error' => 'Unauthorized'], 401);
         }
+    
+        return response()->json(['error' => 'Unauthorized'], 401);
     }
 
     public function logout(Request $request) {
-        $request->user()->token()->revoke();
+        
+        $request->user()->currentAccessToken()->delete();
+
         return response()->json(['message' => 'Successfully logged out']);
     }
 }
-

@@ -67,8 +67,8 @@ class Kernel extends HttpKernel
     ];
 
     protected $routeMiddleware = [
-        // ... otros middlewares ...
         'is_admin' => \App\Http\Middleware\IsAdmin::class,
+        
     ];
     
 }

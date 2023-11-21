@@ -18,9 +18,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'username',
         'password',
+        'name',
+        'surname',
+        'rut',
+        'email',
+        'points',
+        'is_admin',
     ];
 
     /**
@@ -40,13 +45,10 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
 
     public function getIsAdminAttribute(): bool
     {
-    // Usar el nombre de usuario del administrador almacenado en una variable de entorno
-    return $this->username === env('ADMIN_USERNAME');
+        return $this->is_admin;
     }
-
 }

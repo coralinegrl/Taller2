@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'api',
         'passwords' => 'users',
     ],
 
@@ -40,7 +40,13 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+            'driver' => 'sanctum', // o 'sanctum' si estás utilizando Laravel Sanctum
+            'provider' => 'users',
+            'hash' => false,
+        ],
     ],
+    
 
     /*
     |--------------------------------------------------------------------------
