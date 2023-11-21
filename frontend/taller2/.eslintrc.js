@@ -4,8 +4,6 @@ module.exports = {
       node: true, // Configuración para entorno Node.js
     },
     extends: [
-      'eslint:recommended', // Usa las reglas recomendadas por ESLint
-      'plugin:vue/vue3-recommended', // Para proyectos Vue 3
     ],
     parserOptions: {
       parser: 'babel-eslint', // Usa Babel como analizador
