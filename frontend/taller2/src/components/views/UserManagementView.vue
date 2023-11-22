@@ -1,95 +1,116 @@
-
 <template>
   <div>
-    <UserTable :users="users" @editUser="editUser" @deleteUser="deleteUser" />
-    <UserForm v-if="showForm" @saveUser="saveUser" @cancel="cancelForm" />
-    <ConfirmationModal v-if="showConfirmation" @confirm="confirmDelete" @cancel="cancelDelete" />
-    <UserSearch @search="searchUsers" />
+    <!-- Botón para abrir el formulario de creación -->
+    <button @click="createUser">Crear Usuario</button>
+
+    <!-- Filtro de búsqueda -->
+    <input v-model="searchTerm" placeholder="Buscar por RUT/DNI o correo electrónico" />
+    <button @click="searchUsers">Buscar</button>
+
+    <!-- Lista de usuarios -->
+    <UserList
+      :users="filteredUsers"
+      @editUser="editUser"
+      @deleteUser="deleteUser"
+    />
+
+    <!-- Formulario de edición -->
+    <UserForm
+      v-if="editingUser"
+      :user="editingUser"
+      :editing="true"
+      @saveUser="saveUser"
+    />
   </div>
 </template>
 
 <script>
-import UserTable from "@/components/UserTable.vue";
-import UserForm from "@/components/UserForm.vue";
-import ConfirmationModal from "@/components/ConfirmationModal.vue";
-import UserSearch from "@/components/UserSearch.vue";
+import axios from 'axios';
+import UserList from '@/components/UserList.vue';
 
 export default {
-  name: "UserManagementView",
-  components: {
-    UserTable,
-    UserForm,
-    ConfirmationModal,
-    UserSearch,
-  },
   data() {
     return {
-      users: [],
-      showForm: false,
-      showConfirmation: false,
-      selectedUser: null,
+      users: [], // Almacena los usuarios obtenidos de la API
+      editingUser: null, // Usuario que se está editando
+      searchTerm: '', // Término de búsqueda
     };
   },
-  methods: {
-    // Método para editar un usuario
-    editUser(user) {
-      this.selectedUser = user;
-      this.showForm = true;
-    },
-    // Método para eliminar un usuario
-    deleteUser(user) {
-      this.selectedUser = user;
-      this.showConfirmation = true;
-    },
-    // Método para confirmar la eliminación de un usuario
-    confirmDelete() {
-      // Lógica para eliminar el usuario de la lista
-      this.users = this.users.filter((user) => user.id !== this.selectedUser.id);
-      this.selectedUser = null;
-      this.showConfirmation = false;
-    },
-    // Método para cancelar la eliminación de un usuario
-    cancelDelete() {
-      this.selectedUser = null;
-      this.showConfirmation = false;
-    },
-    // Método para guardar un usuario
-    saveUser(user) {
-      // Lógica para guardar el usuario en la lista
-      if (user.id) {
-        // Editar usuario existente
-        const index = this.users.findIndex((u) => u.id === user.id);
-        this.users.splice(index, 1, user);
-      } else {
-        // Crear nuevo usuario
-        user.id = this.users.length + 1;
-        this.users.push(user);
-      }
-      this.selectedUser = null;
-      this.showForm = false;
-    },
-    // Método para cancelar el formulario de usuario
-    cancelForm() {
-      this.selectedUser = null;
-      this.showForm = false;
-    },
-    // Método para buscar usuarios
-    searchUsers(query) {
-      // Lógica para buscar usuarios en la lista
-      // Filtrar la lista de usuarios según el criterio de búsqueda
-      this.users = this.users.filter((user) => {
-        return (
-          user.name.toLowerCase().includes(query.toLowerCase()) ||
-          user.email.toLowerCase().includes(query.toLowerCase())
-        );
+  computed: {
+    filteredUsers() {
+      const term = this.searchTerm.toLowerCase();
+      return this.users.filter(user => {
+        return user.rut.toLowerCase().includes(term) || user.email.toLowerCase().includes(term);
       });
+    }
+  },
+  methods: {
+    createUser() {
+      // Lógica para abrir el formulario de creación de usuario
+      this.editingUser = { name: '', email: '' }; // Puedes inicializar con los campos necesarios
     },
+    editUser(user) {
+      // Lógica para editar un usuario
+      this.editingUser = user;
+    },
+    saveUser(user) {
+      // Lógica para guardar los cambios de edición o creación del usuario
+      if (user.id) {
+        // Es un usuario existente, realiza una solicitud PUT para actualizarlo
+        axios.put(`/api/users/${user.id}`, user)
+          .then(response => {
+            // Actualiza la lista de usuarios o maneja la respuesta según tu necesidad
+            this.fetchUsers();
+            this.editingUser = null;
+          })
+          .catch(error => {
+            console.error('Error al actualizar usuario:', error);
+          });
+      } else {
+        // Es un nuevo usuario, realiza una solicitud POST para crearlo
+        axios.post('/api/users', user)
+          .then(response => {
+            // Actualiza la lista de usuarios o maneja la respuesta según tu necesidad
+            this.fetchUsers();
+            this.editingUser = null;
+          })
+          .catch(error => {
+            console.error('Error al crear usuario:', error);
+          });
+      }
+    },
+    deleteUser(user) {
+      // Lógica para eliminar un usuario
+      const confirmDelete = confirm('¿Estás seguro de eliminar este usuario?');
+      if (confirmDelete) {
+        axios.delete(`/api/users/${user.id}`)
+          .then(response => {
+            // Actualiza la lista de usuarios o maneja la respuesta según tu necesidad
+            this.fetchUsers();
+          })
+          .catch(error => {
+            console.error('Error al eliminar usuario:', error);
+          });
+      }
+    },
+    searchUsers() {
+      // Lógica para buscar usuarios
+      this.fetchUsers(); // Realiza la búsqueda de acuerdo a tus necesidades
+    },
+    fetchUsers() {
+      // Lógica para obtener la lista de usuarios desde la API
+      axios.get('/api/users')
+        .then(response => {
+          this.users = response.data;
+        })
+        .catch(error => {
+          console.error('Error al obtener usuarios:', error);
+        });
+    }
   },
   created() {
-    // Lógica para obtener la lista de usuarios desde el backend
-    // y asignarla a la propiedad "users"
-    // Ejemplo:
-    // this.users = axios.get("/api/users");
-  },
+    // Cuando se carga la vista, obtén la lista de usuarios
+    this.fetchUsers();
+  }
 };
 </script>

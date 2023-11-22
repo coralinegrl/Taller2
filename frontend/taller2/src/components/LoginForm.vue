@@ -8,7 +8,6 @@
             <input type="password" id="password" v-model="password" required>
             <button type="submit">Iniciar sesión</button>
         </form>
-        <button @click="logout">Cerrar sesión</button>
     </div>
 </template>
 
@@ -38,7 +37,7 @@ export default {
                 localStorage.setItem('token', token);
 
                 // Redirige al usuario a la página principal u otra página después de iniciar sesión
-                this.$router.push('/dashboard'); // Asegúrate de configurar tus rutas correctamente
+                this.$router.push('/user-management'); // Asegúrate de configurar tus rutas correctamente
 
             } catch (error) {
                 // Maneja los errores de autenticación, por ejemplo, muestra un mensaje de error al usuario
@@ -46,14 +45,7 @@ export default {
                 alert('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
             }
         },
-        logout() {
-            // Aquí puedes agregar la lógica para cerrar sesión
-            // Por ejemplo, elimina el token almacenado en el cliente
-            localStorage.removeItem('token');
-
-            // Redirige al usuario a la página de inicio de sesión
-            this.$router.push('/login'); // Asegúrate de configurar tus rutas correctamente
-        }
+    
     }
 }
 </script>
