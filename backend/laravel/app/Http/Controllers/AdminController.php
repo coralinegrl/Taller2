@@ -34,4 +34,28 @@ class AdminController extends Controller
         $user = User::create($validatedData);
         return response()->json($user, 201);
     }
+
+    public function deleteUser(Request $request, $id) {
+        // Buscar el usuario por ID
+        $user = User::find($id);
+
+        // Validar si el usuario existe
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // Verificar la doble confirmación
+        $confirmation = $request->input('confirmation');
+
+        // Validar si la confirmación es "SI"
+        if ($confirmation === "SI") {
+            // Eliminar el usuario
+            $user->delete();
+
+            return response()->json(['message' => 'User deleted']);
+        } else {
+            return response()->json(['message' => 'User not deleted']);
+        }
+    }
+
 }
