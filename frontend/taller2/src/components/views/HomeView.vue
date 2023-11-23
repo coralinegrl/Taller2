@@ -11,15 +11,15 @@
     </div>
 </template>
   
-  <script>
-  export default {
+<script>
+export default {
     name: 'HomeView',
     // Otras opciones del componente
-  }
-  </script>
+}
+</script>
   
-  <style>
+<style>
   
   /* Estilos adicionales para este componente, si es necesario */
-  </style>
+</style>
   
