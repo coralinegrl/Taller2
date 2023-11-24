@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   props: {
     users: Array, // Lista de usuarios a mostrar
