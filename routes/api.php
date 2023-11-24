@@ -8,21 +8,29 @@ use App\Http\Controllers\UserController;
 // Ruta para el login general (puede ser utilizado por administradores y usuarios)
 
 
-Route::post('/login', [AuthController::class, 'login']);
+// Route::post('/login', [AuthController::class, 'login']);
 
 
-Route::middleware('auth:api')->group(function () {
-    // Ruta para el logout
-    Route::post('/logout', [AuthController::class, 'logout']);
 
-    // Rutas específicas para el administrador
+//     // Ruta para el logout
+//     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::middleware('is_admin')->group(function () {
-        Route::get('/users', [AdminController::class, 'listUsers']);
-        Route::post('/users', [AdminController::class, 'createUser']);
-        // Agrega aquí otras rutas administrativas según sea necesario
-    });
+//     // Rutas específicas para el administrador
+
+//     Route::middleware('jwt.verify')->group(function () {
+//         Route::get('/users', [AdminController::class, 'listUsers']);
+//         //Route::post('/users', [AdminController::class, 'createUser']);
+//         // Agrega aquí otras rutas administrativas según sea necesario
+//     });
+
 
     // Rutas para operaciones de usuarios comunes
     //Route::apiResource('/users', UserController::class)->except(['store']);
+
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/users', [AuthController::class, 'index']);
+
+Route::middleware('jwt.verify')->group(function () {
+    Route::get('/users', [UserController::class, 'listUsers']);
 });

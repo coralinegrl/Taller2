@@ -2,40 +2,62 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 
 
 class AuthController extends Controller
 {
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
+        // try {
+        //     $user = User::where('username', $request->username)->first();
+
+        //     if ($user && Hash::check($request->password, $user->password)) {
+        //         $token = $user->createToken('Personal Access Token')->plainTextToken;
+        //         $rut = $user->rut; // Obtener el rut del usuario desde la base de datos
+
+        //         $isAdmin = $user->is_admin; // Obtener el valor de is_admin desde la base de datos
+
+        //         return response()->json(['token' => $token, 'rut' => $rut, 'is_admin' => $isAdmin], 200);
+        //     }
+
+        //     return response()->json(['error' => 'Unauthorized'], 401);
+        // } catch (\Throwable $th) {
+        //     // dd($th->getMessage());
+        //     return response()->json(['error' => $th->getMessage()]);
+        // }
+
+        $credentials = $request->only('username', 'password');
         try {
-        $user = User::where('username', $request->username)->first();
-
-        if ($user && Hash::check($request->password, $user->password)) {
-            $token = $user->createToken('Personal Access Token')->plainTextToken;
-            $rut = $user->rut; // Obtener el rut del usuario desde la base de datos
-
-            $isAdmin = $user->is_admin; // Obtener el valor de is_admin desde la base de datos
-            
-            return response()->json(['token' => $token, 'rut' => $rut,'is_admin' => $isAdmin], 200);
+            // Intentar autenticar al usuario con las credenciales recibidas.
+            if (!$tokenCheck = JWTAuth::attempt($credentials)) {
+                return response()->json([
+                    'message' => 'las credenciales ingresadas son incorrectas.',
+                ], 400);
+            }
+        } catch (JWTException $e) {
+            return response()->json([
+                'error' => 'token no creado',
+            ], 500);
         }
 
-        return response()->json(['error' => 'Unauthorized hola'], 401);
+        // Obtenemos al usuario autenticado
+        $user = auth()->user();
 
-    } catch (\Throwable $th) {
-        //dd($th->getMessage());
-        return response()->json(['error' => $th->getMessage()]);
+        return response()->json([
+            'token' => $tokenCheck,
+            'user' => $user,
+        ]);
     }
+
+    public function index()
+    {
+        return response()->json([
+            'message' => 'Bienvenido a la API de la aplicación de puntos.',
+        ]);
     }
-
-    //public function logout(Request $request) {
-
-        //$request->user()->currentAccessToken()->delete();
-
-        //return response()->json(['message' => 'Successfully logged out']);
-    //}
 }
