@@ -55,9 +55,6 @@ export default {
     return {
       users: [], // Lista de usuarios a mostrar
       searchTerm: '',
-      localUsersList: [
-        {name: user.name, surname: user.surname, rut: user.rut, email: user.email, point: user.points, isEditing: false} // Filtro de RUT
-      ]
     };
   },
   mounted() {

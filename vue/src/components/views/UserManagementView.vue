@@ -14,7 +14,7 @@
       <div class="flex items-center">
         <input
           v-model="searchTerm"
-          placeholder="Buscar por RUT/DNI o correo electrónico"
+          placeholder="Buscar por rut o correo"
           class="rounded-l px-4 py-2"
           style="border: 1px solid #D1D5DB;" 
         />
