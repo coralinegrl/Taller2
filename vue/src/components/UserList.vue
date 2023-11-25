@@ -54,10 +54,7 @@ export default {
   data() {
     return {
       users: [], // Lista de usuarios a mostrar
-      filter: '',
-      localUsersList: [
-        {name: user.name, surname: user.surname, rut: user.rut, email: user.email, point: user.points, isEditing: false} // Filtro de RUT
-      ]
+      searchTerm: '',
     };
   },
   mounted() {
@@ -120,7 +117,24 @@ export default {
       user.isEditing = false; // Desactivar el modo de edición sin guardar los cambios
       
     },
+    searchUsers(user) {
+      const token = localStorage.getItem('token');
+      axios.get(`http://127.0.0.1:8000/api/users`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      this.filteredUsers = this.users.filter(user => {
+        return (
+          user.rut.includes(this.searchTerm) ||
+          user.email.includes(this.searchTerm)
+
+        );
+      });
+    },
   },
 }
 </script>
+        
+
         
