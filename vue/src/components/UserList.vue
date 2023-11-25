@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       users: [], // Lista de usuarios a mostrar
-      filter: '',
+      searchTerm: '',
       localUsersList: [
         {name: user.name, surname: user.surname, rut: user.rut, email: user.email, point: user.points, isEditing: false} // Filtro de RUT
       ]
@@ -119,6 +119,15 @@ export default {
     cancelEdit(user) {
       user.isEditing = false; // Desactivar el modo de edición sin guardar los cambios
       
+    },
+    searchUsers() {
+      this.filteredUsers = this.users.filter(user => {
+        return (
+          user.rut.includes(this.searchTerm) ||
+          user.email.includes(this.searchTerm)
+
+        );
+      });
     },
   },
 }

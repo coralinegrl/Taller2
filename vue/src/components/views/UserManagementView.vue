@@ -54,23 +54,11 @@ export default {
   },
   data() {
     return {
+      users: [], // Lista de usuarios a mostrar
       searchTerm: '',
       isCreateUserModalVisible: false,
     };
+    
   },
-  methods: {
-    searchUsers() {
-      // Implementa la lógica de búsqueda aquí
-    },
-    editUser(user) {
-      // Implementa la lógica de edición aquí
-    },
-    deleteUser(user) {
-      // Implementa la lógica de eliminación aquí
-    },
-    showCreateUserModal() {
-      this.isCreateUserModalVisible = true;
-    }
-  }
 };
 </script>
