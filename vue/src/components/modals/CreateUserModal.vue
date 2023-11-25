@@ -11,8 +11,10 @@
           <h3 class="text-lg leading-6 font-medium text-gray-900">Crear Usuario</h3>
           <div class="mt-2 px-7 py-3">
             <input type="text" placeholder="Nombre" class="mb-3 px-4 py-2 border rounded w-full" />
-            <input type="text" placeholder="Correo electrónico" class="mb-3 px-4 py-2 border rounded w-full" />
-            <input type="text" placeholder="RUT/DNI" class="mb-3 px-4 py-2 border rounded w-full" />
+            <input type="text" placeholder="Apellido" class="mb-3 px-4 py-2 border rounded w-full" />
+            <input type="text" placeholder="Email" class="mb-3 px-4 py-2 border rounded w-full" />
+            <input type="text" placeholder="Rut" class="mb-3 px-4 py-2 border rounded w-full" />
+            <input type="text" placeholder="Puntos" class="mb-3 px-4 py-2 border rounded w-full" />
             <!-- Añade más campos según sea necesario -->
           </div>
           <div class="items-center px-4 py-3">

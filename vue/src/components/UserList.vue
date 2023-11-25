@@ -1,56 +1,126 @@
-<template>
-  <div class="flex flex-col justify-center items-start h-screen p-10 space-y-4">
-    <!-- Asume que tus botones y el input de búsqueda ya están aquí -->
-    
-    <!-- Tabla -->
-    <div class="w-full max-w-4xl">
-      <table class="w-full text-left border-collapse border border-green-300">
-        <thead>
-          <tr class="text-sm font-medium text-center text-gray-700 ">
-            <th class="px-4 py-3 border border-green-300">RUT/DNI</th>
-            <th class="px-4 py-3 border border-green-300">Correo electrónico</th>
-            <th class="px-4 py-3 border border-green-300">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <template v-if="users && users.length">
-            <tr v-for="user in users" :key="user.id" class="hover:bg-green-50">
-              <td class="px-4 py-3 border border-green-300">{{ user.rut }}</td>
-              <td class="px-4 py-3 border border-green-300">{{ user.email }}</td>
-              <td class="px-4 py-3 border border-green-300">
-                <button @click="editUser(user)" class="text-sm bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-300 focus:ring-opacity-50">
-                  Editar
-                </button>
-                <button @click="deleteUser(user)" class="text-sm bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-opacity-50">
-                  Eliminar
-                </button>
-              </td>
-            </tr>
-          </template>
-          <tr v-if="!users || users.length === 0">
-            <td colspan="3" class="text-center py-3 border border-green-300">No hay usuarios para mostrar</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<template>  
+    <table class="min-w-full">
+      <thead>
+        <tr>
+          <th class="px-4 py-2 border">Nombre</th>
+          <th class="px-4 py-2 border">Apellido</th>
+          <th class="px-4 py-2 border">Rut</th>
+          <th class="px-4 py-2 border">Correo</th>
+          <th class="px-4 py-2 border">Puntos</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Loop through your users array -->
+        <tr v-for="(user, index) in localusersList" :key="index" class="border">
+          <td class="px-4 py-2 border">
+            <div v-if="!user.isEditing">{{ user.name }}</div>
+            <input v-else v-model="user.name" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+          </td>
+          <td class="px-4 py-2 border">
+            <div v-if="!user.isEditing">{{ user.surname }}</div>
+            <input v-else v-model="user.surname" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+          </td>
+          <td class="px-4 py-2 border">
+            <div v-if="!user.isEditing">{{ user.rut }}</div>
+            <input v-else v-model="user.year" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+          </td>
+          <td class="px-4 py-2 border">
+            <div v-if="!user.isEditing">{{ user.email }}</div>
+            <input v-else v-model="user.email" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+          </td>
+          <td class="px-4 py-2 border">
+            <div v-if="!user.isEditing">{{ user.points }}</div>
+            <input v-else v-model="user.points" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+          </td>
+          <td class="px-4 py-2 border">
+            <span v-if="!user.isEditing" @click="editUser(user)" class="cursor-pointer text-blue-500 hover:text-blue-700">
+              <PencilIcon class="w-4 h-4 inline" />
+            </span>
+            <span v-else>
+              <button @click="updateuser(user)" class="bg-green-500 text-white px-3 py-1 rounded-md">Guardar</button>
+              <button @click="cancelEdit(user)" class="bg-red-500 text-white px-3 py-1 rounded-md">Cancelar</button>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 </template>
 
 <script>
+import { PencilIcon } from '@heroicons/vue/solid';
 import axios from 'axios';
+
 export default {
-  props: {
-    users: Array, // Lista de usuarios a mostrar
+  data() {
+    return {
+      users: [], // Lista de usuarios a mostrar
+      filter: '',
+      localUsersList: [
+        {name: user.name, surname: user.surname, rut: user.rut, email: user.email, point: user.points, isEditing: false} // Filtro de RUT
+      ]
+    };
+  },
+  mounted() {
+    this.fetchUsers();
+  },
+  
+  computed: {
+    localUsersList() {
+      // Agrega una propiedad isEditing a cada usuario para controlar la edición
+      return this.users.map(user => ({ ...user, isEditing: false }));
+    },
+    filteredUsers() {
+      // Filtrar usuarios por RUT
+      return this.localUsersList.filter(user => user.rut.includes(this.filter));
+    },
   },
   methods: {
-    editUser(user) {
-      // Emitir el evento para editar un usuario
-      this.$emit('editUser', user);
+    fetchUsers() {
+      const token = localStorage.getItem('token');
+      axios.get('http://127.0.0.1:8000/api/users', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        this.users = response.data; // Guarda los usuarios en la propiedad users
+      })
+      .catch(error => {
+        console.error('There was an error fetching the users:', error);
+      });
     },
-    deleteUser(user) {
-      // Emitir el evento para eliminar un usuario
-      this.$emit('deleteUser', user);
+    editUser(user) {
+      user.isEditing = true; // Establecer el modo de edición para este usuario
+    },
+    updateUser(user) {
+      const token = localStorage.getItem('token');
+      axios.patch(`http://127.0.0.1:8000/api/users/${user.id}`, {
+        name: user.name,
+        surname: user.surname,
+        rut: user.rut, 
+        email: user.email,
+        points: user.points,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(response => {
+        console.log('Usuario actualizado:', response.data);
+        user.isEditing = false; 
+        this.fetchUsers(); 
+      })
+      .catch(error => {
+        console.error('Hubo un error al actualizar el usuario:', error);
+        
+      });
+    },
+    cancelEdit(user) {
+      user.isEditing = false; // Desactivar el modo de edición sin guardar los cambios
+      
     },
   },
-};
+}
 </script>
+        

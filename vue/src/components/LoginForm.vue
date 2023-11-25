@@ -45,28 +45,7 @@ export default {
         } catch (error){
           console.log(error.response.data);
         }
-  //       try {
-  //         // Realiza una solicitud HTTP al backend para autenticar al usuario
-  //         console.log('Iniciando sesión...');
-  //         let formData = {
-  //           username: this.username,
-  //           password: this.password,
-  //         };
-  //         const response = await axios.post('/api/login', formData);
-  //         console.log(response.data);
-  
-  //         // Verifica el rol del usuario y redirige a la página correspondiente
-  //         if (response.data.is_admin) {
-  //           this.$router.push({ name: 'UserManagement' }); // Redirige al usuario a la página de administración
-  //         } else {
-  //           this.$router.push({ name: 'Home' }); // Redirige al usuario a la página principal
-  //         }
-  //       //} catch (error) {
-  //         // Maneja los errores de autenticación, por ejemplo, muestra un mensaje de error al usuario
-  //         //console.error('Error al iniciar sesión:', error);
-  //         //alert('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
-  //       //}
-        },
+      },
     },
   };
 
