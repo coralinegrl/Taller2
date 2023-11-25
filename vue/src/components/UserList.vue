@@ -117,7 +117,13 @@ export default {
       user.isEditing = false; // Desactivar el modo de edición sin guardar los cambios
       
     },
-    searchUsers() {
+    searchUsers(user) {
+      const token = localStorage.getItem('token');
+      axios.get(`http://127.0.0.1:8000/api/users`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
       this.filteredUsers = this.users.filter(user => {
         return (
           user.rut.includes(this.searchTerm) ||
