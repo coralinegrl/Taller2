@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             'rut' => '199519697',
             'email' => 'andrea123@gmail.com',
             'points' => 0,
-            'is_admin' => false,  
+            'is_admin' => false,
         ]);
 
     }

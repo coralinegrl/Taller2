@@ -8,7 +8,7 @@ use App\Models\User;
 class UserController extends Controller
 {
     public function index() {
-        $users = User::all();
+        $users = User::where('is_admin', false)->get(['name', 'surname', 'rut', 'email', 'points']);
         return response()->json($users);
     }
 
