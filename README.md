@@ -1,115 +1,103 @@
-# Proyecto con Vue 3, Laravel 10 y Tailwind CSS
+#Vue 3, Laravel 10 y Tailwind CSS - Proyecto Web
 
-Este proyecto es una aplicación web construida con Vue 3 como frontend, Laravel 10 como backend y Tailwind CSS para el estilo.
+Este proyecto es una aplicación web que utiliza Vue 3 para el frontend, Laravel 10 para el backend con API Restful, y Tailwind CSS para el diseño.
 
-## Requisitos Previos
+##Requisitos Previos
 
-Antes de comenzar, necesitarás tener instalados los siguientes programas en tu sistema:
+Para comenzar, asegúrate de tener instalado:
 
-- [XAMPP](https://www.apachefriends.org/index.html), que incluye PHP, MySQL y phpMyAdmin.
-- [Composer](https://getcomposer.org/), el gestor de dependencias de PHP.
-- [Node.js y npm](https://nodejs.org/).
-- [Git](https://git-scm.com/), sistema de control de versiones.
+- [XAMPP](https://www.apachefriends.org/index.html) (incluye PHP, MySQL, phpMyAdmin)
+- [Composer](https://getcomposer.org/) (gestor de dependencias de PHP)
+- [Node.js y npm](https://nodejs.org/)
+- [Git](https://git-scm.com/) (sistema de control de versiones)
 
-## Configuración del Entorno de Desarrollo
+Además, debes clonar este repositorio, copiar el link y pegarlo en el editor de código (por ejemplo en visual studio code, en el apartado que dice 'clonar repositorio').
 
-### Paso 1: Instalar Laravel
+Configuración del Entorno de Desarrollo
+##Paso 1: Instalar Laravel
 
-Abre tu terminal o línea de comandos y ejecuta:
+En la terminal, instala Composer y navega al directorio del proyecto:
 
-composer create-project laravel/laravel nombre-proyecto
-cd nombre-proyecto
+```bash
+composer install
+cd Taller2
+```
 
+##Paso 2: Configuración de XAMPP y Base de Datos
 
+-Inicia XAMPP y hay que asegurar de que MySQL y Apache funcionen, es decir, se debe abrir la aplicación (XAMPP Control Panel) y apretar 'Start' en las primeras dos filas.
+-Abre phpMyAdmin en http://localhost/phpmyadmin o simplemente apretando el botón 'Admin' en la fila My SQL.
+-Se debe crear la base de datos y llamarla 'taller2'.
+-Copia el archivo '.env.example' y pégalo creando otro llamado '.env'. Actualiza el archivo .env en la raíz del proyecto de Laravel con las credenciales de la base de datos (lo mismo del archivon de ejemplo):
 
-### Paso 2: Configurar XAMPP y la Base de Datos
-
-1. Inicia XAMPP y asegúrate de que los servicios Apache y MySQL estén en ejecución.
-2. Abre `phpMyAdmin` en tu navegador accediendo a `http://localhost/phpmyadmin`.
-3. Crea una nueva base de datos para tu proyecto.
-4. Actualiza el archivo `.env` en la raíz de tu proyecto de Laravel con las credenciales de tu base de datos.
-
+```bash
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=tu_base_de_datos
+DB_DATABASE=taller2
 DB_USERNAME=root
 DB_PASSWORD=
+```
 
+SIN CONTRASEÑA
 
+##Paso 3: Instalar Dependencias de Laravel
+Ejecuta dentro del proyecto Laravel:
 
-### Paso 3: Instalar Dependencias de Laravel
-
-Dentro de tu proyecto Laravel, ejecuta:
-
+```bash
 composer install
 php artisan key:generate
 php artisan migrate
+```
 
+##Paso 4: Instalar Vue 3
+Instala Vue 3 en el proyecto:
 
-### Paso 4: Instalar Vue 3
-
-Puedes instalar Vue 3 en tu proyecto Laravel usando el siguiente comando:
-
+```bash
 npm install vue@next
+```
 
-### Paso 5: Instalar Tailwind CSS
+##Paso 5: Instalar Tailwind CSS
 
-Para instalar Tailwind CSS, sigue las instrucciones en la [documentación oficial](https://tailwindcss.com/docs/guides/laravel).
-
+```bash
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init
+```
 
+Para asegurarte de que esté todo instalado:
 
+```bash
+npm i
+```
 
-Configura tu archivo `tailwind.config.js` y añade Tailwind a tu CSS.
+##Paso 6: Desarrollo del Frontend
+Para ejecutar el frontend, escribe en la terminal:
 
-### Paso 6: Desarrollo del Frontend
-
-Puedes crear tus componentes Vue y añadirlos a tu aplicación Laravel. Asegúrate de compilar tus assets con npm.
-
+```bash
 npm run dev
+```
 
+##Paso 7: Ejecutar el Servidor de Desarrollo de Laravel
+Inicia el servidor de desarrollo de Laravel:
 
-
-### Paso 7: Ejecutar el Servidor de Desarrollo de Laravel
-
-Para ver tu aplicación en acción, inicia el servidor de desarrollo de Laravel.
-
+```bash
 php artisan serve
+```
+Esto va a inicializar tanto el backend como el frontend visitando: http://localhost:8000
 
+###Consideraciones Adicionales
 
+Para agregar autenticación JWT:
 
-Ahora deberías poder acceder a tu aplicación en `http://localhost:8000`.
-
-## Consideraciones Adicionales
-
-Instalar a través de composer
-
+```bash
 composer require tymon/jwt-auth
-Agregar proveedor de servicios (Laravel 5.4 o inferior)
-Agregue el proveedor de servicios a la providersmatriz en el config/app.phparchivo de configuración de la siguiente manera:
+```
 
-'providers' => [
+Para generar la clave secreta:
 
-    ...
-
-    Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
-]
-Publicar la configuración
-Ejecute el siguiente comando para publicar el archivo de configuración del paquete:
-
+```bash
 php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
-
-Ahora debería tener un config/jwt.phparchivo que le permita configurar los conceptos básicos de este paquete.
-
-Generar clave secreta:
-
 php artisan jwt:secret
-Esto actualizará su .env con algo como JWT_SECRET=foobar
+```
 
-Es la clave que se utilizará para firmar tus tokens. Cómo sucede eso exactamente dependerá del algoritmo que elija utilizar.
-
-- Asegúrate de leer la documentación oficial de Vue, Laravel y Tailwind para entender mejor cómo trabajar con estas tecnologías.
-- Este archivo README asume que estás utilizando MySQL como base de datos. Si estás utilizando otro sistema de gestión de bases de datos, deberás instalar y configurar según las instrucciones específicas para ese sistema.
-- Para producción, habrá pasos adicionales para asegurar y optimizar tu aplicación.
+Para probar la API, puedes usar [Postman]([https://www.apachefriends.org/index.html](https://www.postman.com/downloads/)https://www.postman.com/downloads/).
