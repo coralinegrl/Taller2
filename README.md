@@ -73,15 +73,21 @@ Para asegurarte de que esté todo instalado:
 ```bash
 npm i
 ```
+## Paso 6: Añadir seeders
+Para rellenar los seeders creados, escribe en la terminal:
 
-## Paso 6: Desarrollo del Frontend
+```bash
+php artisan db:seed
+```
+
+## Paso 7: Desarrollo del Frontend
 Para ejecutar el frontend, escribe en la terminal:
 
 ```bash
 npm run dev
 ```
 
-## Paso 7: Ejecutar el Servidor de Desarrollo de Laravel
+## Paso 8: Ejecutar el Servidor de Desarrollo de Laravel
 Inicia el servidor de desarrollo de Laravel:
 
 ```bash
@@ -104,4 +110,4 @@ php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServicePro
 php artisan jwt:secret
 ```
 
-Para probar la API, puedes usar [Postman]([https://www.apachefriends.org/index.html](https://www.postman.com/downloads/)https://www.postman.com/downloads/).
+Para probar la API, puedes usar [Postman](https://www.postman.com/downloads/).
