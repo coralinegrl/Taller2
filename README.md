@@ -31,7 +31,7 @@ cd Taller2
 
 -Se debe crear la base de datos y llamarla 'taller2'.
 
--Copia el archivo '.env.example' y pégalo creando otro llamado '.env'. Actualiza el archivo .env en la raíz del proyecto de Laravel con las credenciales de la base de datos (lo mismo del archivon de ejemplo):
+-Copia el archivo '.env.example' y pégalo creando otro llamado '.env'. Actualiza el archivo .env en la raíz del proyecto de Laravel con las credenciales de la base de datos (lo mismo del archivo de ejemplo):
 
 
 ```bash
