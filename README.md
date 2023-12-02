@@ -1,8 +1,8 @@
-#Vue 3, Laravel 10 y Tailwind CSS - Proyecto Web
+# Vue 3, Laravel 10 y Tailwind CSS - Proyecto Web
 
 Este proyecto es una aplicación web que utiliza Vue 3 para el frontend, Laravel 10 para el backend con API Restful, y Tailwind CSS para el diseño.
 
-##Requisitos Previos
+## Requisitos Previos
 
 Para comenzar, asegúrate de tener instalado:
 
@@ -14,7 +14,7 @@ Para comenzar, asegúrate de tener instalado:
 Además, debes clonar este repositorio, copiar el link y pegarlo en el editor de código (por ejemplo en visual studio code, en el apartado que dice 'clonar repositorio').
 
 Configuración del Entorno de Desarrollo
-##Paso 1: Instalar Laravel
+## Paso 1: Instalar Laravel
 
 En la terminal, instala Composer y navega al directorio del proyecto:
 
@@ -23,12 +23,16 @@ composer install
 cd Taller2
 ```
 
-##Paso 2: Configuración de XAMPP y Base de Datos
+## Paso 2: Configuración de XAMPP y Base de Datos
 
 -Inicia XAMPP y hay que asegurar de que MySQL y Apache funcionen, es decir, se debe abrir la aplicación (XAMPP Control Panel) y apretar 'Start' en las primeras dos filas.
+
 -Abre phpMyAdmin en http://localhost/phpmyadmin o simplemente apretando el botón 'Admin' en la fila My SQL.
+
 -Se debe crear la base de datos y llamarla 'taller2'.
+
 -Copia el archivo '.env.example' y pégalo creando otro llamado '.env'. Actualiza el archivo .env en la raíz del proyecto de Laravel con las credenciales de la base de datos (lo mismo del archivon de ejemplo):
+
 
 ```bash
 DB_CONNECTION=mysql
@@ -41,7 +45,7 @@ DB_PASSWORD=
 
 SIN CONTRASEÑA
 
-##Paso 3: Instalar Dependencias de Laravel
+## Paso 3: Instalar Dependencias de Laravel
 Ejecuta dentro del proyecto Laravel:
 
 ```bash
@@ -50,14 +54,14 @@ php artisan key:generate
 php artisan migrate
 ```
 
-##Paso 4: Instalar Vue 3
+## Paso 4: Instalar Vue 3
 Instala Vue 3 en el proyecto:
 
 ```bash
 npm install vue@next
 ```
 
-##Paso 5: Instalar Tailwind CSS
+## Paso 5: Instalar Tailwind CSS
 
 ```bash
 npm install -D tailwindcss postcss autoprefixer
@@ -70,14 +74,14 @@ Para asegurarte de que esté todo instalado:
 npm i
 ```
 
-##Paso 6: Desarrollo del Frontend
+## Paso 6: Desarrollo del Frontend
 Para ejecutar el frontend, escribe en la terminal:
 
 ```bash
 npm run dev
 ```
 
-##Paso 7: Ejecutar el Servidor de Desarrollo de Laravel
+## Paso 7: Ejecutar el Servidor de Desarrollo de Laravel
 Inicia el servidor de desarrollo de Laravel:
 
 ```bash
@@ -85,7 +89,7 @@ php artisan serve
 ```
 Esto va a inicializar tanto el backend como el frontend visitando: http://localhost:8000
 
-###Consideraciones Adicionales
+### Consideraciones Adicionales
 
 Para agregar autenticación JWT:
 
