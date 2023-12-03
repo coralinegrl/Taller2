@@ -19,8 +19,9 @@ Configuración del Entorno de Desarrollo
 En la terminal, instala Composer y navega al directorio del proyecto:
 
 ```bash
-composer install
 cd Taller2
+composer install
+
 ```
 
 ## Paso 2: Configuración de XAMPP y Base de Datos
